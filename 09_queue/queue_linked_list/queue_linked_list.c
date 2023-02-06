@@ -31,22 +31,17 @@ node* enque(node* root, int a){
 }
 
 int deque(node* root){
-    printf("test\n");
+    perror("Error: ");
     if (root = NULL)
     {
         printf("Queue is empty!\n");
-        printf("test1\n");
         return -1;
     }
-    printf("test2\n");
+    perror("Error: ");
     int rvalue = root->data;
-    printf("test3\n");
     node* iter = root;
-    printf("test4\n");
     root = root->next;
-    printf("test5\n");
     free(iter);
-    printf("test6\n");
     return rvalue;
     
 }

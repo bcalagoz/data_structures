@@ -11,11 +11,11 @@ typedef struct n node;
 node * insert(node * tree,int a){
     if (tree == NULL)
     {
-        node* root = (node*)malloc(sizeof(node));
-        root->data = a;
-        root->left = NULL;
-        root->right = NULL;
-        return root;
+        tree = (node*)malloc(sizeof(node));
+        tree->data = a;
+        tree->left = NULL;
+        tree->right = NULL;
+        return tree;
     }
     if (a > tree->data)
     {
@@ -69,21 +69,50 @@ int min(node* tree){
     return tree->data;
 }
 
+node * delete(node* tree,int a){
+    if (tree == NULL)
+        return NULL;
+    if (tree->data == a)
+    {
+        if (tree->left == NULL && tree->right ==NULL)
+            return NULL;
+        if (tree->right != NULL)
+        {
+            tree->data = min(tree->right);
+            tree->right = delete(tree->right,min(tree->right));
+            return tree;
+        }
+        tree->data = max(tree->left);
+        tree->left = delete(tree->left,max(tree->left));
+        return tree;
+    }
+    if (a > tree->data)
+    {
+        tree->right = delete(tree->right,a);
+        return tree;
+    }
+    tree->left = delete(tree->left,a);
+    return tree;
+}
+
 int main(){
     node * tree = NULL;
-    tree = insert(tree,12);
+    tree = insert(tree,56);
+    tree = insert(tree,26);
     tree = insert(tree,200);
     tree = insert(tree,190);
     tree = insert(tree,213);
-    tree = insert(tree,56);
-    tree = insert(tree,24);
     tree = insert(tree,18);
-    tree = insert(tree,27);
     tree = insert(tree,28);
+    tree = insert(tree,12);
+    tree = insert(tree,24);
+    tree = insert(tree,27);
 
     traverse(tree);
-    printf("Result: %d\n",find(tree,100));
+    
     printf("Max:%d  Min:%d\n",max(tree),min(tree));
-   
+    
+    delete(tree,56);
+    traverse(tree);
     return 0;
 }
